@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Balanço Mensal</title>
+<style>
+    * {
+    box-sizing: border-box;
+    }
+    body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #eef3ea;
+    color: #1f2a1f;
+    }
+    header {
+    text-align: center;
+    padding: 20px;
+    }
+    h1 {
+    color: #3f5a2f;
+    }
+    section {
+    background: white;
+    border: 1px solid #cbd5b6;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px auto;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+    display: block;
+    margin-top: 10px;
+    color: #58265a;
+    }
+    input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #cbd5b6;
+    border-radius: 8px;
+    }
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    }
+
+    th,
+    td {
+    padding: 10px;
+    border: 1px solid #cbd5b6;
+    }
+    thead {
+    background: #4b6a34;
+    color: white;
+    }
+    tbody tr:nth-child(odd) {
+    background: #f7faf3;
+    }
+    button {
+    background: #4b6a34;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    }
+
+    button:hover {
+    background: #3f5a2f;
+    }
+    
+</style>
+</head>
+<body>
+<header>
+    <h1>Balanço do Mês</h1>
+    <p>Preencha o produto e as quantidades por local.</p>
+</header>
+
+<!-- Formulário de entrada -->
+<main>
+    <section aria-labelledby="titulo-form">
+    <h2 id="titulo-form">Adicionar produto</h2>
+
+    <form id="form-produto">
+        <div>
+        <label for="produto">Produto</label>
+        <input
+            id="produto"
+            name="produto"
+            type="text"
+            placeholder="Ex.: Coca-Cola 2L"
+            required
+        />
+        </div>
+
+        <fieldset>
+        <legend>Quantidades por local</legend>
+
+        <div>
+            <label for="qtd-estoque">Estoque geral</label>
+            <input
+            id="qtd-estoque"
+            name="estoque"
+            type="number"
+            min="0"
+            inputmode="numeric"
+            />
+        </div>
+
+        <div>
+            <label for="qtd-camera">Câmara fria</label>
+            <input
+            id="qtd-camera"
+            name="camera"
+            type="number"
+            min="0"
+            inputmode="numeric"
+            />
+        </div>
+
+        <div>
+            <label for="qtd-bar">Bar</label>
+            <input
+            id="qtd-bar"
+            name="bar"
+            type="number"
+            min="0"
+            inputmode="numeric"
+            />
+        </div>
+
+        <div>
+            <label for="qtd-adega-salao">Adega salão</label>
+            <input
+            id="qtd-adega-salao"
+            name="adegaSalao"
+            type="number"
+            min="0"
+            inputmode="numeric"
+            />
+        </div>
+
+        <div>
+            <label for="qtd-adega-bar">Adega bar</label>
+            <input
+            id="qtd-adega-bar"
+            name="adegaBar"
+            type="number"
+            min="0"
+            inputmode="numeric"
+            />
+        </div>
+        </fieldset>
+
+        <!-- Botões entram aqui no próximo passo (JS) -->
+        <button type="submit">Adicionar</button> 
+        <button type="button" id="btn-exportar">Exportar PDF</button> 
+    </form>
+    </section>
+
+    <!-- Listagens por local -->
+    <section aria-labelledby="titulo-camera">
+    <h2 id="titulo-camera">Câmara Fria</h2>
+    <table id="tabela-camera" aria-describedby="desc-camera">
+        <caption id="desc-camera">
+        Produtos e quantidades na câmara fria
+        </caption>
+        <thead>
+        <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- linhas serão inseridas via JS -->
+        </tbody>
+    </table>
+    </section>
+
+    <section aria-labelledby="titulo-bar">
+    <h2 id="titulo-bar">Bar</h2>
+    <table id="tabela-bar" aria-describedby="desc-bar">
+        <caption id="desc-bar">
+        Produtos e quantidades no bar
+        </caption>
+        <thead>
+        <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </section>
+
+    <section aria-labelledby="titulo-adega-salao">
+    <h2 id="titulo-adega-salao">Adega Salão</h2>
+    <table id="tabela-adega-salao" aria-describedby="desc-adega-salao">
+        <caption id="desc-adega-salao">
+        Produtos e quantidades na adega do salão
+        </caption>
+        <thead>
+        <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </section>
+
+    <section aria-labelledby="titulo-adega-bar">
+    <h2 id="titulo-adega-bar">Adega Bar</h2>
+    <table id="tabela-adega-bar" aria-describedby="desc-adega-bar">
+        <caption id="desc-adega-bar">
+        Produtos e quantidades na adega do bar
+        </caption>
+        <thead>
+        <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </section>
+</main>
+
+<footer>
+    <small>Relatório de estoque — versão HTML básica</small>
+</footer>
+</body>
+</html>
