@@ -1,70 +1,59 @@
-   * {
-    box-sizing: border-box;
-    }
-    body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #eef3ea;
-    color: #1f2a1f;
-    }
-    header {
-    text-align: center;
-    padding: 20px;
-    }
-    h1 {
-    color: #3f5a2f;
-    }
-    section {
-    background: white;
-    border: 1px solid #cbd5b6;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px auto;
-    width: 90%;
-    max-width: 800px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    label {
-    display: block;
-    margin-top: 10px;
-    color: #58265a;
-    }
-    input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #cbd5b6;
-    border-radius: 8px;
-    }
-    table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    }
+/* ==============================
+   Reset e estilos básicos
+   ============================== */
+* { box-sizing: border-box; }
 
-    th,
-    td {
-    padding: 10px;
-    border: 1px solid #cbd5b6;
-    }
-    thead {
-    background: #4b6a34;
-    color: white;
-    }
-    tbody tr:nth-child(odd) {
-    background: #f7faf3;
-    }
-    button {
-    background: #4b6a34;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #e6f0ff; /* azul bebê claro */
+  color: #2a2a2a;
+}
 
-    button:hover {
-    background: #3f5a2f;
-    }
-    
+header { text-align: center; padding: 20px; }
+h1 { color: #6b52ff; } /* roxo bebê escuro */
+section {
+  background: #f3f0ff; /* roxo bebê suave */
+  border: 1px solid #d0cfff;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Inputs e labels */
+label { display: block; margin-top: 10px; color: #5b3d99; }
+input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #cbd5b6; border-radius: 8px; }
+
+/* Tabelas */
+.table-wrapper { overflow-x: auto; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { padding: 10px; border: 1px solid #d0cfff; }
+thead { background: #8a7fff; color: white; }
+tbody tr:nth-child(odd) { background: #dfe0ff; }
+
+/* Botões */
+button {
+  background: #7aa7ff; color: white;
+  border: none; padding: 10px 15px;
+  border-radius: 8px; cursor: pointer;
+  margin-top: 10px;
+}
+button:hover { background: #5688ff; }
+
+/* ==============================
+   Responsividade para mobile
+   ============================== */
+@media (max-width: 600px) {
+  section { width: 95%; padding: 10px; }
+  h1 { font-size: 1.5em; }
+  h2 { font-size: 1.2em; }
+  table th, table td { padding: 6px; font-size: 12px; }
+  button { width: 100%; margin-top: 8px; }
+  form fieldset { padding: 10px; }
+
+  /* Botões Editar/Excluir menores no mobile */
+  .btn-editar, .btn-excluir { padding: 6px 8px; font-size: 11px; }
+}

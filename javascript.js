@@ -1,10 +1,8 @@
 // ==============================
-// Balanço Mensal — JS completo com LocalStorage + PDF estilizado
+// Balanço Mensal — JS com LocalStorage + PDF
 // ==============================
 
-// -----------------------------
 // Seleção de elementos
-// -----------------------------
 const form = document.getElementById('form-produto');
 const inputProduto = document.getElementById('produto');
 const btnExportar = document.getElementById('btn-exportar');
@@ -23,25 +21,20 @@ let produtoEmEdicao = null;
 // Funções utilitárias
 // -----------------------------
 function getInputNumero(id) {
-  const el = document.getElementById(id);
-  const val = el.value.trim();
+  const val = document.getElementById(id).value.trim();
   const num = Number(val);
   return Number.isFinite(num) && num > 0 ? Math.floor(num) : 0;
 }
 
-function normalizarProduto(nome) {
-  return nome.trim();
-}
+function normalizarProduto(nome) { return nome.trim(); }
 
 function obterTBody(idTabela) {
-  const tabela = document.getElementById(idTabela);
-  return tabela.querySelector('tbody');
+  return document.getElementById(idTabela).querySelector('tbody');
 }
 
 function encontrarLinhaPorProduto(tbody, produto) {
-  const rows = Array.from(tbody.querySelectorAll('tr'));
-  const alvo = produto.toLowerCase();
-  return rows.find(r => r.dataset.produto && r.dataset.produto.toLowerCase() === alvo) || null;
+  return Array.from(tbody.querySelectorAll('tr'))
+    .find(r => r.dataset.produto && r.dataset.produto.toLowerCase() === produto.toLowerCase()) || null;
 }
 
 // -----------------------------
@@ -53,11 +46,9 @@ function salvarLocalStorage() {
     const tbody = obterTBody(cfg.tableId);
     tbody.querySelectorAll('tr').forEach(tr => {
       let prod = produtos.find(p => p.produto === tr.dataset.produto);
-      if (!prod) {
-        prod = { produto: tr.dataset.produto, estoque: 0, camera: 0, bar: 0, adegaSalao: 0, adegaBar: 0 };
-        produtos.push(prod);
-      }
+      if (!prod) prod = { produto: tr.dataset.produto, estoque:0, camera:0, bar:0, adegaSalao:0, adegaBar:0, };
       prod[chave] = Number(tr.querySelector('[data-col="qtd"]').textContent) || 0;
+      if (!produtos.includes(prod)) produtos.push(prod);
     });
   }
   localStorage.setItem('balancoMensal', JSON.stringify(produtos));
@@ -66,8 +57,7 @@ function salvarLocalStorage() {
 function carregarLocalStorage() {
   const dados = localStorage.getItem('balancoMensal');
   if (!dados) return;
-  const produtos = JSON.parse(dados);
-  produtos.forEach(p => {
+  JSON.parse(dados).forEach(p => {
     for (const [chave, cfg] of Object.entries(SETORES)) {
       criarOuSomarLinha(cfg.tableId, p.produto, p[chave], true);
     }
@@ -84,8 +74,7 @@ function criarOuSomarLinha(tableId, produto, quantidade, modoEdicao = false) {
 
   if (tr && !modoEdicao) {
     const celulaQtd = tr.querySelector('[data-col="qtd"]');
-    const atual = Number(celulaQtd.textContent) || 0;
-    celulaQtd.textContent = String(atual + quantidade);
+    celulaQtd.textContent = String(Number(celulaQtd.textContent) + quantidade);
     return;
   }
 
@@ -101,7 +90,6 @@ function criarOuSomarLinha(tableId, produto, quantidade, modoEdicao = false) {
     tdQtd.textContent = String(quantidade);
 
     const tdAcoes = document.createElement('td');
-
     const btnEditar = document.createElement('button');
     btnEditar.type = 'button';
     btnEditar.className = 'btn btn-warning btn-editar';
@@ -118,8 +106,7 @@ function criarOuSomarLinha(tableId, produto, quantidade, modoEdicao = false) {
     tr.append(tdProduto, tdQtd, tdAcoes);
     tbody.appendChild(tr);
   } else {
-    const celulaQtd = tr.querySelector('[data-col="qtd"]');
-    celulaQtd.textContent = String(quantidade);
+    tr.querySelector('[data-col="qtd"]').textContent = String(quantidade);
   }
 }
 
@@ -129,8 +116,7 @@ function criarOuSomarLinha(tableId, produto, quantidade, modoEdicao = false) {
 function coletarQuantidadesDeProduto(produto) {
   const quantidades = {estoque:0, camera:0, bar:0, adegaSalao:0, adegaBar:0};
   for (const [chave, cfg] of Object.entries(SETORES)) {
-    const tbody = obterTBody(cfg.tableId);
-    const linha = encontrarLinhaPorProduto(tbody, produto);
+    const linha = encontrarLinhaPorProduto(obterTBody(cfg.tableId), produto);
     if (linha) quantidades[chave] = Number(linha.querySelector('[data-col="qtd"]').textContent) || 0;
   }
   return quantidades;
@@ -141,11 +127,9 @@ function entrarModoEdicao(produto) {
   produtoEmEdicao = produto;
 
   inputProduto.value = produto;
-  document.getElementById('qtd-estoque').value = quantidades.estoque || '';
-  document.getElementById('qtd-camera').value = quantidades.camera || '';
-  document.getElementById('qtd-bar').value = quantidades.bar || '';
-  document.getElementById('qtd-adega-salao').value = quantidades.adegaSalao || '';
-  document.getElementById('qtd-adega-bar').value = quantidades.adegaBar || '';
+  for (const [chave, cfg] of Object.entries(SETORES)) {
+    document.getElementById(cfg.inputId).value = quantidades[chave] || '';
+  }
 
   const btnSubmit = form.querySelector('button[type="submit"]');
   btnSubmit.textContent = 'Salvar';
@@ -169,10 +153,8 @@ function sairModoEdicao() {
   const btnSubmit = form.querySelector('button[type="submit"]');
   btnSubmit.textContent = 'Adicionar';
   delete btnSubmit.dataset.modo;
-
   const btnCancelar = document.getElementById('btn-cancelar-edicao');
   if (btnCancelar) btnCancelar.remove();
-
   form.reset();
 }
 
@@ -207,8 +189,7 @@ function instalarDelegacaoDeEventos() {
 form.addEventListener('submit', (ev) => {
   ev.preventDefault();
 
-  const produtoRaw = inputProduto.value;
-  const produto = normalizarProduto(produtoRaw);
+  const produto = normalizarProduto(inputProduto.value);
   if (!produto) { inputProduto.focus(); return; }
 
   const valores = {};
@@ -216,8 +197,10 @@ form.addEventListener('submit', (ev) => {
     valores[chave] = getInputNumero(cfg.inputId);
   }
 
-  const algumaQtd = Object.values(valores).some(v => v > 0);
-  if (!algumaQtd) { alert('Informe ao menos uma quantidade maior que zero.'); return; }
+  if (!Object.values(valores).some(v => v > 0)) {
+    alert('Informe ao menos uma quantidade maior que zero.');
+    return;
+  }
 
   if (produtoEmEdicao) {
     for (const cfg of Object.values(SETORES)) {
@@ -251,7 +234,6 @@ btnExportar.addEventListener('click', () => {
     const tabelaClonada = tabela.cloneNode(true);
     tabelaClonada.querySelectorAll('thead th:last-child, tbody td:last-child').forEach(el => el.remove());
 
-    // Estilos inline
     tabelaClonada.style.width = '100%';
     tabelaClonada.style.borderCollapse = 'collapse';
     tabelaClonada.querySelectorAll('th, td').forEach(cell => {
@@ -260,7 +242,7 @@ btnExportar.addEventListener('click', () => {
       cell.style.fontSize = '12px';
     });
     const thead = tabelaClonada.querySelector('thead');
-    if (thead) { thead.style.background = '#4b6a34'; thead.style.color = 'white'; }
+    if (thead) { thead.style.background = '#8a7fff'; thead.style.color = 'white'; }
 
     conteudo += `<h2 style="text-align:center;">${cfg.rotulo}</h2>${tabelaClonada.outerHTML}`;
   }
