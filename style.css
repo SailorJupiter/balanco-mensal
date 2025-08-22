@@ -6,15 +6,16 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #e6f0ff; /* azul bebê claro */
-  color: #2a2a2a;
+  background-color: #e0fff7; /* verde menta claro */
+  color: #333333; /* texto escuro para contraste */
 }
 
 header { text-align: center; padding: 20px; }
-h1 { color: #6b52ff; } /* roxo bebê escuro */
+h1 { color: #a58fff; } /* roxo lavanda médio */
+
 section {
-  background: #f3f0ff; /* roxo bebê suave */
-  border: 1px solid #d0cfff;
+  background: #f7f0ff; /* lavanda bem suave */
+  border: 1px solid #d8cfff;
   border-radius: 10px;
   padding: 15px;
   margin: 15px auto;
@@ -24,24 +25,28 @@ section {
 }
 
 /* Inputs e labels */
-label { display: block; margin-top: 10px; color: #5b3d99; }
+label { display: block; margin-top: 10px; color: #7f5fa0; } /* roxo suave */
 input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #cbd5b6; border-radius: 8px; }
 
 /* Tabelas */
 .table-wrapper { overflow-x: auto; margin-top: 10px; }
 table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-th, td { padding: 10px; border: 1px solid #d0cfff; }
-thead { background: #8a7fff; color: white; }
-tbody tr:nth-child(odd) { background: #dfe0ff; }
+th, td { padding: 10px; border: 1px solid #d8cfff; }
+thead { background: #a58fff; color: white; } /* roxo lavanda médio */
+tbody tr:nth-child(odd) { background: #e9e4ff; } /* lavanda bem claro */
 
 /* Botões */
 button {
-  background: #7aa7ff; color: white;
-  border: none; padding: 10px 15px;
-  border-radius: 8px; cursor: pointer;
+  background: #7ef0a1; /* verde menta vibrante */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
   margin-top: 10px;
 }
-button:hover { background: #5688ff; }
+
+button:hover { background: #4fdf7c; } /* verde menta mais escuro */
 
 /* ==============================
    Responsividade para mobile
