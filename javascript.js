@@ -15,6 +15,7 @@ const btnExportar = document.getElementById('btn-exportar');
 
 // Mapeamento dos setores: relaciona inputs do formulário e tabelas
 const SETORES = {
+  estoque: { inputId: 'qtd-estoque', tableId: 'tabela-estoque', rotulo: 'Estoque Geral' },
   camera: { inputId: 'qtd-camera', tableId: 'tabela-camera', rotulo: 'Câmara Fria' },
   bar: { inputId: 'qtd-bar', tableId: 'tabela-bar', rotulo: 'Bar' },
   adegaSalao: { inputId: 'qtd-adega-salao', tableId: 'tabela-adega-salao', rotulo: 'Adega Salão' },
@@ -59,7 +60,7 @@ function encontrarLinhaPorProduto(tbody, produto) {
 
 function coletarQuantidadesDeProduto(produto) {
   // Lê as quantidades atuais desse produto em TODAS as tabelas
-  const quantidades = { camera: 0, bar: 0, adegaSalao: 0, adegaBar: 0 };
+  const quantidades = {estoque:0, camera: 0, bar: 0, adegaSalao: 0, adegaBar: 0 };
   for (const [chave, cfg] of Object.entries(SETORES)) {
     const tbody = obterTBody(cfg.tableId);
     const linha = encontrarLinhaPorProduto(tbody, produto);
@@ -147,6 +148,7 @@ function entrarModoEdicao(produto) {
 
   // Preenche o formulário com o produto e suas quantidades atuais
   inputProduto.value = produto;
+  document.getElementById('qtd-estoque').value = quantidades.estoque || '';
   document.getElementById('qtd-camera').value = quantidades.camera || '';
   document.getElementById('qtd-bar').value = quantidades.bar || '';
   document.getElementById('qtd-adega-salao').value = quantidades.adegaSalao || '';
