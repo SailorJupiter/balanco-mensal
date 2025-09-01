@@ -27,30 +27,12 @@
 
         <fieldset>
           <legend>Quantidades por local</legend>
-          <div>
-            <label for="qtd-estoque">Estoque geral</label>
-            <input id="qtd-estoque" type="number" min="0" />
-          </div>
-          <div>
-            <label for="qtd-camera">Câmara fria</label>
-            <input id="qtd-camera" type="number" min="0" />
-          </div>
-          <div>
-            <label for="qtd-bar">Bar</label>
-            <input id="qtd-bar" type="number" min="0" />
-          </div>
-          <div>
-            <label for="qtd-adega-salao">Adega salão</label>
-            <input id="qtd-adega-salao" type="number" min="0" />
-          </div>
-          <div>
-            <label for="qtd-adega-bar">Adega bar</label>
-            <input id="qtd-adega-bar" type="number" min="0" />
-          </div>
-          <div>
-            <label for="qtd-pesados">Produtos Pesados (kg/L)</label>
-            <input id="qtd-pesados" type="number" step="0.001" min="0" placeholder="Ex.: 12,544" />
-          </div>
+          <div><label for="qtd-estoque">Estoque geral</label><input id="qtd-estoque" type="number" min="0" /></div>
+          <div><label for="qtd-camera">Câmara fria</label><input id="qtd-camera" type="number" min="0" /></div>
+          <div><label for="qtd-bar">Bar</label><input id="qtd-bar" type="number" min="0" /></div>
+          <div><label for="qtd-adega-salao">Adega salão</label><input id="qtd-adega-salao" type="number" min="0" /></div>
+          <div><label for="qtd-adega-bar">Adega bar</label><input id="qtd-adega-bar" type="number" min="0" /></div>
+          <div><label for="qtd-pesados">Produtos Pesados (kg/L)</label><input id="qtd-pesados" type="number" step="0.001" min="0" placeholder="Ex.: 12,544" /></div>
         </fieldset>
 
         <button type="submit">Adicionar</button>
@@ -62,54 +44,24 @@
     <section aria-labelledby="titulo-setores">
       <h2 id="titulo-setores">Setores Normais</h2>
 
-      <div class="table-wrapper">
-        <h3>Estoque Geral</h3>
-        <table id="tabela-estoque">
-          <thead>
-            <tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="table-wrapper"><h3>Estoque Geral</h3>
+        <table id="tabela-estoque"><thead><tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr></thead><tbody></tbody></table>
       </div>
 
-      <div class="table-wrapper">
-        <h3>Câmara Fria</h3>
-        <table id="tabela-camera">
-          <thead>
-            <tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="table-wrapper"><h3>Câmara Fria</h3>
+        <table id="tabela-camera"><thead><tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr></thead><tbody></tbody></table>
       </div>
 
-      <div class="table-wrapper">
-        <h3>Bar</h3>
-        <table id="tabela-bar">
-          <thead>
-            <tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="table-wrapper"><h3>Bar</h3>
+        <table id="tabela-bar"><thead><tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr></thead><tbody></tbody></table>
       </div>
 
-      <div class="table-wrapper">
-        <h3>Adega Salão</h3>
-        <table id="tabela-adega-salao">
-          <thead>
-            <tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="table-wrapper"><h3>Adega Salão</h3>
+        <table id="tabela-adega-salao"><thead><tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr></thead><tbody></tbody></table>
       </div>
 
-      <div class="table-wrapper">
-        <h3>Adega Bar</h3>
-        <table id="tabela-adega-bar">
-          <thead>
-            <tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="table-wrapper"><h3>Adega Bar</h3>
+        <table id="tabela-adega-bar"><thead><tr><th>Produto</th><th>Quantidade</th><th>Ações</th></tr></thead><tbody></tbody></table>
       </div>
     </section>
 
@@ -118,10 +70,7 @@
       <h2 id="titulo-pesados">Produtos Pesados</h2>
       <div class="table-wrapper">
         <table id="tabela-pesados">
-          <thead>
-            <tr><th>Produto</th><th>Peso/Volume</th><th>Ações</th></tr>
-          </thead>
-          <tbody></tbody>
+          <thead><tr><th>Produto</th><th>Peso/Volume</th><th>Ações</th></tr></thead><tbody></tbody>
         </table>
       </div>
     </section>

@@ -48,7 +48,9 @@ function renderizarTabela() {
     document.querySelector(`#${cfg.tableId} tbody`).innerHTML = '';
   }
 
-  const dados = carregarDados();
+  const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
+  const dados = carregarDados().sort((a, b) => collator.compare(a.produto, b.produto));
+
   for (const item of dados) {
     for (const [setor, qtd] of Object.entries(item.valores)) {
       if (qtd > 0) {
@@ -56,12 +58,7 @@ function renderizarTabela() {
         const tbody = document.querySelector(`#${cfg.tableId} tbody`);
         const tr = document.createElement('tr');
 
-        let valorFormatado;
-        if (setor === "pesados") {
-          valorFormatado = qtd.toFixed(3); // 3 casas decimais
-        } else {
-          valorFormatado = Math.round(qtd); // inteiro
-        }
+        let valorFormatado = setor === "pesados" ? qtd.toFixed(3) : Math.round(qtd);
 
         tr.innerHTML = `
           <td>${item.produto}</td>
@@ -87,24 +84,29 @@ form.addEventListener('submit', e => {
 
   const valores = {};
   for (const [chave, cfg] of Object.entries(SETORES)) {
-    if (chave === "pesados") {
-      valores[chave] = getInputNumeroDecimal(cfg.inputId);
-    } else {
-      valores[chave] = getInputNumero(cfg.inputId);
-    }
+    valores[chave] = (chave === "pesados")
+      ? getInputNumeroDecimal(cfg.inputId)
+      : getInputNumero(cfg.inputId);
   }
 
   // ✅ Verifica se pelo menos um valor é maior que zero
-  const temQuantidade = Object.values(valores).some(v => v > 0);
-  if (!temQuantidade) {
+  if (!Object.values(valores).some(v => v > 0)) {
     alert("Informe ao menos uma quantidade maior que zero.");
     return;
   }
 
-  const dados = carregarDados();
-  dados.push({ produto, valores });
-  salvarDados(dados);
+  let dados = carregarDados();
+  const existente = dados.find(item => item.produto.toLowerCase() === produto.toLowerCase());
 
+  if (existente) {
+    for (const setor of Object.keys(SETORES)) {
+      existente.valores[setor] += valores[setor];
+    }
+  } else {
+    dados.push({ produto, valores });
+  }
+
+  salvarDados(dados);
   form.reset();
   renderizarTabela();
 });
@@ -151,12 +153,13 @@ document.body.addEventListener('click', e => {
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
+  const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
 
   doc.setFontSize(20);
   doc.setTextColor(70, 30, 130);
   doc.text("Relatório de Estoque", 105, 20, { align: "center" });
 
-  const dados = carregarDados();
+  const dados = carregarDados().sort((a, b) => collator.compare(a.produto, b.produto));
 
   // Setores normais
   const setoresNormais = ["estoque","camera","bar","adegaSalao","adegaBar"];
