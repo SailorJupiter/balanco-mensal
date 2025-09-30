@@ -75,7 +75,7 @@ function renderizarTabela() {
 }
 
 // -----------------------------
-// Form submit (AJUSTADO)
+// Form submit
 // -----------------------------
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -89,7 +89,6 @@ form.addEventListener('submit', e => {
       : getInputNumero(cfg.inputId);
   }
 
-  // ✅ Verifica se pelo menos um valor é maior que zero
   if (!Object.values(valores).some(v => v > 0)) {
     alert("Informe ao menos uma quantidade maior que zero.");
     return;
@@ -148,7 +147,7 @@ document.body.addEventListener('click', e => {
 });
 
 // -----------------------------
-// Exportar PDF estilizado
+// Exportar PDF estilizado (com coluna Total nos setores normais)
 // -----------------------------
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
@@ -161,16 +160,17 @@ function exportarPDF() {
 
   const dados = carregarDados().sort((a, b) => collator.compare(a.produto, b.produto));
 
-  // Setores normais
+  // Setores normais com Total
   const setoresNormais = ["estoque","camera","bar","adegaSalao","adegaBar"];
-  const cabecalhoNormais = ["Produto", ...setoresNormais.map(s => SETORES[s].rotulo)];
+  const cabecalhoNormais = ["Produto", ...setoresNormais.map(s => SETORES[s].rotulo), "Total"];
 
   const corpoNormais = dados
     .filter(item => setoresNormais.some(s => item.valores[s] > 0))
-    .map(item => [
-      item.produto,
-      ...setoresNormais.map(s => item.valores[s] ? Math.round(item.valores[s]) : "0")
-    ]);
+    .map(item => {
+      const valoresSetores = setoresNormais.map(s => item.valores[s] ? Math.round(item.valores[s]) : 0);
+      const total = valoresSetores.reduce((acc, v) => acc + v, 0);
+      return [item.produto, ...valoresSetores, total];
+    });
 
   if (corpoNormais.length > 0) {
     doc.autoTable({
@@ -185,7 +185,7 @@ function exportarPDF() {
     });
   }
 
-  // Produtos pesados
+  // Produtos pesados (sem total)
   const corpoPesados = dados
     .filter(item => item.valores.pesados > 0)
     .map(item => [item.produto, item.valores.pesados.toFixed(3)]);
